@@ -16,13 +16,15 @@ enum StateHandler stateMachine;
 #define SDA_DIO 8
 #define RESET_DIO 9
 #define SERVO_PIN 10
-#define SERVO_VERRIEGELT   60
-#define SERVO_ENTRIEGELT SERVO_VERRIEGELT + 120
+#define SERVO_VERRIEGELT   0
+#define SERVO_ENTRIEGELT 90
 #define SERVO_DELAY 5
 #define SERVO_SIMULATE false
 
 struct rfidCard {
   unsigned char serNum[5];
+  unsigned char pin[4];
+
 };
 
 struct rfidCard allowedCards[5];
@@ -56,7 +58,7 @@ bool isAllowedCard(unsigned char CardSerial[5]) {
   for(int i = 0; i < sizeof(allowedCards)/sizeof(rfidCard); i++) {
     Serial.print("Testing against card ");
     Serial.println(i);
-    if(!strcmp((char*)allowedCards[i].serNum, (char*)CardSerial)){
+    if(!memcmp((char*)allowedCards[i].serNum, (char*)CardSerial, 5)){
       Serial.print(i);
       Serial.println(" matched.");
       foundValidCard = true;
@@ -111,8 +113,9 @@ void setup() {
   RC522.init(); // Initialise the RFID reader
   
   servo.attach(SERVO_PIN);
+  lockDoor();
 
-  Serial.println("Leggo!!!");
+  Serial.println("Leggo2!!!");
 
   // KEYPAD
   const byte ROWS = 4; //four rows
@@ -124,14 +127,52 @@ void setup() {
     {'*','0','#','D'}
   };
 
-   allowedCards[3].serNum[0] = 0xB3;
+  allowedCards[1].serNum[0] = 0xA2;
+  allowedCards[1].serNum[1] = 0x62;
+  allowedCards[1].serNum[2] = 0x6C;
+  allowedCards[1].serNum[3] = 0x03;
+  allowedCards[1].serNum[4] = 0xAF;
+  allowedCards[1].pin[0] = 1;
+  allowedCards[1].pin[1] = 2;
+  allowedCards[1].pin[2] = 3;
+  allowedCards[1].pin[3] = 4;  
+
+  allowedCards[2].serNum[0] = 0xC4;
+  allowedCards[2].serNum[1] = 0x46;
+  allowedCards[2].serNum[2] = 0xA5;
+  allowedCards[2].serNum[3] = 0x4E;
+  allowedCards[2].serNum[4] = 0x69;
+
+  allowedCards[3].serNum[0] = 0xB3;
   allowedCards[3].serNum[1] = 0x73;
   allowedCards[3].serNum[2] = 0xF4;
   allowedCards[3].serNum[3] = 0x2C;
   allowedCards[3].serNum[4] = 0x18;
-
+  
   stateMachine = StateHandler::CHECK_USER;  // go to start step
 };
+
+void waitForValidCard()
+{
+  Serial.print("waitForValidCard");
+  while (true)
+  {
+    Serial.print(".");
+    delay(333);
+    if(RC522.isCard()) {
+      Serial.println(" detected!");
+      RC522.readCardSerial();
+      if (isAllowedCard(RC522.serNum)) {
+        Serial.println("waitForValidCard... done.");
+        return;
+      } else {
+        Serial.println("waitForValidCard... reset.");
+      }
+    }
+  }
+}
+
+
 
 void loop() {
   // put your main code here, to run repeatedly:
@@ -139,21 +180,18 @@ void loop() {
 
   ledStatus.toggle();
 
-  if (RC522.isCard()) {
-    buzzer.on();
-    RC522.readCardSerial();
-  } else {
-    buzzer.off();
-  };
-
   switch (stateMachine) {
     case StateHandler::CHECK_USER:
+      waitForValidCard();
       if (isAllowedCard(RC522.serNum)) {
         stateMachine=StateHandler::CHECK_PIN;
       };
       break;
     
     case StateHandler::CHECK_PIN:
+      Serial.println("CHECK_PIN");
+      Serial.println("Checking PIN...");
+      Serial.println("Checking PIN... PIN IS DUMMY VALID!");
       stateMachine = StateHandler::OPENING;
       break;
 
@@ -172,6 +210,7 @@ void loop() {
       ledYellow.off();
       ledRed.off();
 
+      waitForValidCard();
       if (isAllowedCard(RC522.serNum)) {
         stateMachine=StateHandler::CLOSING;
       };
