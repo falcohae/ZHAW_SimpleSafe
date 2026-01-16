@@ -41,14 +41,15 @@ Led ledYellow(3);
 Led ledGreen(2);
 Led buzzer(7);  // LED object can be used for buzzer to enhance handling
 Led ledStatus(LED_BUILTIN);
-
 Led ledTest(12);
 
+// RFID Reader
 RFID RC522(SDA_DIO, RESET_DIO);
+
+// Serco
 Servo servo;
 
-// KEYPAD
-
+// Keypad
 const byte ROWS = 4; //four rows
 const byte COLS = 4; //four columns
 char keys[ROWS][COLS] = {
@@ -96,8 +97,8 @@ bool unlockDoor() {
     delay(500);
     return true;
   #else
-
-    for(int i = SERVO_VERRIEGELT; i < SERVO_ENTRIEGELT; i++) {
+    int servostartposition = servo.read();
+    for(int i = servostartposition; i < SERVO_ENTRIEGELT; i++) {
       servo.write(i);
       delay(SERVO_DELAY);
     };
@@ -113,7 +114,8 @@ bool lockDoor() {
   #if (SERVO_SIMULATE)
     Serial.println("Verriegle Tuere... Simulation.");
   #else
-    for(int i = SERVO_ENTRIEGELT; i > SERVO_VERRIEGELT; i--) {
+    int servostartposition = servo.read();
+    for(int i = servostartposition; i > SERVO_VERRIEGELT; i--) {
       servo.write(i);
       delay(SERVO_DELAY);
     };
@@ -209,9 +211,6 @@ void setup() {
   SPI.begin();  // Enable the SPI interface for RFID reader
   RC522.init(); // Initialise the RFID reader
   
-  servo.attach(SERVO_PIN);
-  lockDoor();
-
   Serial.println("Leggo2!!!");
 
 
@@ -236,8 +235,12 @@ void setup() {
   allowedCards[3].serNum[2] = 0xF4;
   allowedCards[3].serNum[3] = 0x2C;
   allowedCards[3].serNum[4] = 0x18;
-  
-  stateMachine = StateHandler::CHECK_USER;  // go to start step
+
+  servo.attach(SERVO_PIN);
+
+  delay(5000);
+
+  stateMachine = StateHandler::CLOSING;  // go to start step
 };
 
 void loop() {
@@ -248,6 +251,7 @@ void loop() {
 
   switch (stateMachine) {
     case StateHandler::CHECK_USER:
+      ledRed.on();
       waitForValidCard();
       if (isKnownCard(RC522.serNum)) {
         stateMachine = StateHandler::CHECK_PIN;
@@ -258,19 +262,17 @@ void loop() {
     
     case StateHandler::CHECK_PIN:
       Serial.println("CHECK_PIN");
+      ledYellow.on();
       if (validatePin(currentCard->pin)) {
         stateMachine = StateHandler::OPENING;
       } else {
         // Play failure sound
         stateMachine = StateHandler::CHECK_USER;
       }
+      ledYellow.off();
       break;
 
     case StateHandler::OPENING:
-      ledGreen.on();
-      ledYellow.blink(currentMillis,0,200);
-      ledRed.off();
-
       if (unlockDoor()) {
         stateMachine = StateHandler::UNLOCKED;
       }
@@ -288,14 +290,16 @@ void loop() {
       break;
 
     case StateHandler::CLOSING:
-      ledYellow.blink(currentMillis,0,500);
+      ledYellow.on();
       if (lockDoor()) {
-        stateMachine = StateHandler::CHECK_USER;
+        stateMachine = StateHandler::LOCKED;
       };
+      ledYellow.off();
       break;
 
     case StateHandler::LOCKED:
-      // check if necessary
+      ledRed.on();
+      stateMachine=StateHandler::CHECK_USER;
       break;
 
     case StateHandler::THEFT:
