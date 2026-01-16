@@ -20,14 +20,20 @@ enum StateHandler stateMachine;
 #define SERVO_ENTRIEGELT 90
 #define SERVO_DELAY 5
 #define SERVO_SIMULATE false
+#define PINLENGTH 4
 
 struct rfidCard {
   unsigned char serNum[5];
   unsigned char pin[4];
-
+//  bool allowOpen = false;
+//  bool allowClose = false;
+//  bool allowArm = false;
+//  bool allowUnarm = false;
+//  bool allowMute = false;
 };
 
 struct rfidCard allowedCards[5];
+rfidCard *currentCard;
 
 // Objects
 Led ledRed(4);
@@ -41,12 +47,25 @@ Led ledTest(12);
 RFID RC522(SDA_DIO, RESET_DIO);
 Servo servo;
 
+// KEYPAD
 
+const byte ROWS = 4; //four rows
+const byte COLS = 4; //four columns
+char keys[ROWS][COLS] = {
+  {'1','2','3','A'},
+  {'4','5','6','B'},
+  {'7','8','9','C'},
+  {'*','0','#','D'}
+};
 
+byte colPins[ROWS] = {28, 26, 24, 22}; //connect to the column pinouts of the keypad
+byte rowPins[COLS] = {36, 34, 32, 30}; //connect to the row pinouts of the keypad
+
+Keypad pinpad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS); 
 
 // ******************** FUNCTION CODE ******************** //
 
-bool isAllowedCard(unsigned char CardSerial[5]) {
+bool isKnownCard(unsigned char CardSerial[5]) {
 
   for (int i = 0; i < 5; i++) {
     Serial.print(CardSerial[i], HEX); //to print card detail in Hexa Decimal format
@@ -55,12 +74,13 @@ bool isAllowedCard(unsigned char CardSerial[5]) {
   
   bool foundValidCard = false;
 
-  for(int i = 0; i < sizeof(allowedCards)/sizeof(rfidCard); i++) {
+  for(unsigned int i = 0; i < sizeof(allowedCards)/sizeof(rfidCard); i++) {
     Serial.print("Testing against card ");
     Serial.println(i);
     if(!memcmp((char*)allowedCards[i].serNum, (char*)CardSerial, 5)){
       Serial.print(i);
       Serial.println(" matched.");
+      currentCard = &allowedCards[i];
       foundValidCard = true;
       break;
     }
@@ -105,6 +125,83 @@ bool lockDoor() {
 };
 
 
+void waitForValidCard()
+{
+  Serial.print("waitForValidCard");
+  while (true)
+  {
+    Serial.print(".");
+    delay(333);
+    if(RC522.isCard()) {
+      Serial.println(" detected!");
+      RC522.readCardSerial();
+      if (isKnownCard(RC522.serNum)) {
+        Serial.println("waitForValidCard... done.");
+        return;
+      } else {
+        Serial.println("waitForValidCard... reset.");
+      }
+    }
+  }
+}
+
+char readButtonPress() {
+    
+    char buttonPressed = 0;
+
+    while(!buttonPressed) {
+      buttonPressed = pinpad.getKey();
+    };
+    
+
+    Serial.print("Button ");
+    Serial.print(buttonPressed, HEX);
+    Serial.print(" was pressed");
+
+    delay(200); // debounce
+    return buttonPressed;
+}
+
+bool validatePin(unsigned char pinToValidate[]) {
+  Serial.println("validatePin");
+
+  Serial.print("Validating against PIN ");
+
+  bool validationSuccessfull = true;
+
+  for(int i = 0; i < PINLENGTH; i++) {
+    Serial.print(pinToValidate[i], HEX);
+    Serial.print("|");
+  }
+  Serial.println();
+
+  for(int i = 0; i < PINLENGTH; i++) {
+    char buttonPressed = readButtonPress();
+
+    if(buttonPressed != pinToValidate[i]) {
+      Serial.println("mismatch!");
+      validationSuccessfull = false;
+    } else {
+      Serial.println("matched!");
+    }
+  }
+
+  return validationSuccessfull;
+#if 0
+  for(int i = 0; i < PINLENGTH; i++) {
+    sizeof(cardToValidate.pin)
+  }
+
+  char inputKey = pinpad.getKey();
+  
+  if (inputKey){
+    Serial.println(customKey);
+  }
+
+  Serial.println("validatePin ...beendet");
+#endif
+}
+
 // ******************** PROGRAM CODE ******************** //
 void setup() {
   // put your setup code here, to run once:
@@ -117,25 +214,16 @@ void setup() {
 
   Serial.println("Leggo2!!!");
 
-  // KEYPAD
-  const byte ROWS = 4; //four rows
-  const byte COLS = 4; //four columns
-  char keys[ROWS][COLS] = {
-    {'1','2','3','A'},
-    {'4','5','6','B'},
-    {'7','8','9','C'},
-    {'*','0','#','D'}
-  };
 
   allowedCards[1].serNum[0] = 0xA2;
   allowedCards[1].serNum[1] = 0x62;
   allowedCards[1].serNum[2] = 0x6C;
   allowedCards[1].serNum[3] = 0x03;
   allowedCards[1].serNum[4] = 0xAF;
-  allowedCards[1].pin[0] = 1;
-  allowedCards[1].pin[1] = 2;
-  allowedCards[1].pin[2] = 3;
-  allowedCards[1].pin[3] = 4;  
+  allowedCards[1].pin[0] = '1';
+  allowedCards[1].pin[1] = '2';
+  allowedCards[1].pin[2] = '1';
+  allowedCards[1].pin[3] = '3';  
 
   allowedCards[2].serNum[0] = 0xC4;
   allowedCards[2].serNum[1] = 0x46;
@@ -152,28 +240,6 @@ void setup() {
   stateMachine = StateHandler::CHECK_USER;  // go to start step
 };
 
-void waitForValidCard()
-{
-  Serial.print("waitForValidCard");
-  while (true)
-  {
-    Serial.print(".");
-    delay(333);
-    if(RC522.isCard()) {
-      Serial.println(" detected!");
-      RC522.readCardSerial();
-      if (isAllowedCard(RC522.serNum)) {
-        Serial.println("waitForValidCard... done.");
-        return;
-      } else {
-        Serial.println("waitForValidCard... reset.");
-      }
-    }
-  }
-}
-
-
-
 void loop() {
   // put your main code here, to run repeatedly:
   currentMillis = millis();
@@ -183,16 +249,21 @@ void loop() {
   switch (stateMachine) {
     case StateHandler::CHECK_USER:
       waitForValidCard();
-      if (isAllowedCard(RC522.serNum)) {
-        stateMachine=StateHandler::CHECK_PIN;
-      };
+      if (isKnownCard(RC522.serNum)) {
+        stateMachine = StateHandler::CHECK_PIN;
+      } else {
+        // Play failure sound
+      }
       break;
     
     case StateHandler::CHECK_PIN:
       Serial.println("CHECK_PIN");
-      Serial.println("Checking PIN...");
-      Serial.println("Checking PIN... PIN IS DUMMY VALID!");
-      stateMachine = StateHandler::OPENING;
+      if (validatePin(currentCard->pin)) {
+        stateMachine = StateHandler::OPENING;
+      } else {
+        // Play failure sound
+        stateMachine = StateHandler::CHECK_USER;
+      }
       break;
 
     case StateHandler::OPENING:
@@ -211,7 +282,7 @@ void loop() {
       ledRed.off();
 
       waitForValidCard();
-      if (isAllowedCard(RC522.serNum)) {
+      if (isKnownCard(RC522.serNum)) {
         stateMachine=StateHandler::CLOSING;
       };
       break;
