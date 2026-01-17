@@ -383,7 +383,14 @@ void loop() {
         beepOk();
         stateMachine = StateHandler::OPENING;
       } else {
+        clearDisplayLine(2);
+        display.setCursor(4,2);
+        display.print("PIN is wrong");
         beepNotOk();
+        delay(1000);
+        clearDisplayLine(2);
+        display.setCursor(7, 2);
+        display.print("LOCKED");
         stateMachine = StateHandler::CHECK_USER;
       }
       ledYellow.off();
