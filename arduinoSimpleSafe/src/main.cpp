@@ -18,7 +18,7 @@ enum StateHandler stateMachine;
 #define SERVO_PIN 10
 #define SERVO_VERRIEGELT   0
 #define SERVO_ENTRIEGELT 90
-#define SERVO_DELAY 50
+#define SERVO_DELAY 33
 #define SERVO_SIMULATE false
 #define PINLENGTH 4
 
@@ -29,7 +29,7 @@ struct rfidCard {
   bool allowOpen;
 };
 
-struct rfidCard allowedCards[5];
+struct rfidCard allowedCards[4];
 rfidCard *currentCard;
 
 // Objects
@@ -63,6 +63,16 @@ Keypad pinpad = Keypad( makeKeymap(keys), rowPins, colPins, ROWS, COLS);
 
 // Buzzer
 #define BUZZERPIN 7
+
+// Display
+#include <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C display(0x27,20,4);
+
+void clearDisplayLine(unsigned int lineNumber) {
+  display.setCursor(0, lineNumber);
+  display.print("                    ");
+}
 
 void beep(unsigned int duration) {
   digitalWrite(BUZZERPIN, HIGH);
@@ -129,6 +139,9 @@ bool isKnownCard(unsigned char CardSerial[5]) {
 
 bool unlockDoor() {
   Serial.println("Entriegle Tuere...");
+  clearDisplayLine(2);
+  display.setCursor(4, 2);
+  display.print("Unlocking...");
   #if (SERVO_SIMULATE)    // only evaluated at compile time
     Serial.println("Entriegle Tuere... Simulation.");
     delay(500);
@@ -136,11 +149,16 @@ bool unlockDoor() {
   #else
     int servostartposition = servo.read();
     for(int i = servostartposition; i < SERVO_ENTRIEGELT; i++) {
-      
+      ledYellow.blink(currentMillis, 100, 0);
       servo.write(i);
       delay(SERVO_DELAY);
     };
+    ledYellow.off();
     servo.write(SERVO_ENTRIEGELT);
+    clearDisplayLine(2);
+    display.setCursor(6, 2);
+    display.print("Unlocked");
+
   beepActionFinished();
   Serial.println("Entriegle Tuere... abgeschlossen.");
     return (servo.read() >= SERVO_ENTRIEGELT);
@@ -149,15 +167,23 @@ bool unlockDoor() {
 
 bool lockDoor() {
   Serial.println("Verriegle Tuere...");
+  clearDisplayLine(2);
+  display.setCursor(5, 2);
+  display.print("Locking...");
   #if (SERVO_SIMULATE)
     Serial.println("Verriegle Tuere... Simulation.");
   #else
     int servostartposition = servo.read();
     for(int i = servostartposition; i > SERVO_VERRIEGELT; i--) {
       servo.write(i);
+      ledYellow.blink(currentMillis, 100, 0);
       delay(SERVO_DELAY);
     };
+    ledYellow.off();
     servo.write(SERVO_VERRIEGELT);
+    clearDisplayLine(2);
+    display.setCursor(7, 2);
+    display.print("LOCKED");
   #endif
     Serial.println("Verriegle Tuere... abgeschlossen.");
   beepActionFinished();
@@ -206,7 +232,13 @@ char readButtonPress() {
 bool validatePin(unsigned char pinToValidate[]) {
   Serial.println("validatePin");
 
+  clearDisplayLine(2);
+  display.setCursor(2, 2);
+  display.print("Enter PIN: ");
+
   Serial.print("Validating against PIN ");
+
+
 
   bool validationSuccessfull = true;
 
@@ -218,7 +250,8 @@ bool validatePin(unsigned char pinToValidate[]) {
 
   for(int i = 0; i < PINLENGTH; i++) {
     char buttonPressed = readButtonPress();
-
+    display.setCursor(13 + i, 2);
+    display.print("*");
     if(buttonPressed != pinToValidate[i]) {
       Serial.println("mismatch!");
       validationSuccessfull = false;
@@ -252,18 +285,29 @@ void setup() {
   
   Serial.println("Leggo2!!!");
 
+  allowedCards[0].serNum[0] = 0x0D;
+  allowedCards[0].serNum[1] = 0x62;
+  allowedCards[0].serNum[2] = 0xC9;
+  allowedCards[0].serNum[3] = 0x01;
+  allowedCards[0].serNum[4] = 0xA7;
+  allowedCards[0].pin[0] = '1';
+  allowedCards[0].pin[1] = '2';
+  allowedCards[0].pin[2] = '1';
+  allowedCards[0].pin[3] = '3';
+  allowedCards[0].allowOpen = true;
+  allowedCards[0].allowClose = false;
+
   allowedCards[1].serNum[0] = 0xA2;
   allowedCards[1].serNum[1] = 0x62;
   allowedCards[1].serNum[2] = 0x6C;
   allowedCards[1].serNum[3] = 0x03;
   allowedCards[1].serNum[4] = 0xAF;
-  allowedCards[1].pin[0] = '1';
-  allowedCards[1].pin[1] = '2';
-  allowedCards[1].pin[2] = '1';
-  allowedCards[1].pin[3] = '3';
+  allowedCards[1].pin[0] = 'A';
+  allowedCards[1].pin[1] = 'B';
+  allowedCards[1].pin[2] = 'A';
+  allowedCards[1].pin[3] = 'C';
   allowedCards[1].allowOpen = true;
   allowedCards[1].allowClose = false;
-  
 
   allowedCards[2].serNum[0] = 0xC4;
   allowedCards[2].serNum[1] = 0x46;
@@ -273,16 +317,27 @@ void setup() {
   allowedCards[2].allowClose = true;
   allowedCards[2].allowOpen = false;
 
-  allowedCards[3].serNum[0] = 0xB3;
-  allowedCards[3].serNum[1] = 0x73;
-  allowedCards[3].serNum[2] = 0xF4;
-  allowedCards[3].serNum[3] = 0x2C;
-  allowedCards[3].serNum[4] = 0x18;
+  allowedCards[3].serNum[0] = 0x65;
+  allowedCards[3].serNum[1] = 0x2E;
+  allowedCards[3].serNum[2] = 0x2D;
+  allowedCards[3].serNum[3] = 0x03;
+  allowedCards[3].serNum[4] = 0x65;
+  allowedCards[3].allowClose = true;
+  allowedCards[3].allowOpen = false;
 
+  display.init();
+  display.backlight();
+
+  display.backlight();
+  display.setCursor(2,0);
+  display.print("ZHAW SimpleSafe");
+  display.setCursor(4,2);
+  display.print("Starting...");
+
+  servo.write(SERVO_VERRIEGELT);
   servo.attach(SERVO_PIN);
 
   pinMode(BUZZERPIN, OUTPUT);
-
 
   beepOk();
 
@@ -357,15 +412,14 @@ void loop() {
       break;
 
     case StateHandler::CLOSING:
-      ledYellow.on();
       if (lockDoor()) {
         stateMachine = StateHandler::LOCKED;
       };
-      ledYellow.off();
       break;
 
     case StateHandler::LOCKED:
       ledRed.on();
+      ledGreen.off();
       stateMachine=StateHandler::CHECK_USER;
       break;
 
