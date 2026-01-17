@@ -33,13 +33,20 @@ void Led::toggle() {
 
 bool Led::blink(unsigned long currentMillis, unsigned int amount = 0, unsigned int duration = 100) {
     
-    bool blinkDone = (blinkCounter > amount) or not (amount == 0);
+    bool blinkDone = (blinkCounter > amount) and not (amount == 0);
 
     if (((currentMillis - timeLastInteraction) >= duration) and not blinkDone){
         toggle();
         blinkCounter = blinkCounter + 1;
+        timeLastInteraction = currentMillis;
     };
 
+    if (blinkDone) {
+        blinkCounter = 0;
+        blinkDone = false;
+        timeLastInteraction = currentMillis;
+    };    
+    
     return blinkDone;
 };
 
@@ -54,7 +61,6 @@ bool Led::fadeIn(unsigned long currentMillis, unsigned int time) {
 
         analogWrite(pin,light);
         timeLastInteraction = currentMillis;
-        Serial.println("LED fadeIn: " + (String)light);
     };
     return (light >= ledMax);
 };
@@ -70,7 +76,6 @@ bool Led::fadeOut(unsigned long currentMillis, unsigned int time) {
 
         analogWrite(pin,light);
         timeLastInteraction = currentMillis;
-        Serial.println("LED fadeOut: " + (String)light);
     };
     return (light <= ledMin);
 };
