@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="1649pt"
-   height="245pt"
+   width="1487pt"
+   height="209pt"
    style="overflow: hidden; "
    version="1.1"
    id="svg22"
-   sodipodi:docname="Programmablauf.svg"
+   sodipodi:docname="program structure.svg"
+   inkscape:export-filename="program structure.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96"
    inkscape:version="1.4.3 (0d15f75, 2025-12-25)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -23,65 +26,65 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
      inkscape:document-units="pt"
-     inkscape:zoom="0.80776228"
-     inkscape:cx="1828.5083"
-     inkscape:cy="162.79542"
-     inkscape:window-width="1920"
-     inkscape:window-height="1009"
-     inkscape:window-x="-8"
+     inkscape:zoom="0.89576328"
+     inkscape:cx="990.77515"
+     inkscape:cy="138.98761"
+     inkscape:window-width="2560"
+     inkscape:window-height="1369"
+     inkscape:window-x="1912"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:current-layer="svg22" />
   <g
-     id="viewport-20260116113234725"
+     id="viewport-20260117161416525"
      class="svg-pan-zoom_viewport"
-     transform="matrix(1.3263968,0,0,1.286568,6.1899381,6.2816701)">
+     transform="matrix(1.3341816,0,0,1.3263827,0.5565604,1.0906946)">
     <g
        id="graph0"
        class="graph"
-       transform="translate(4,241)">
+       transform="translate(4,205)">
       <title
          id="title1">Arduino_RFID_Lock_System</title>
       <polygon
          fill="#ffffff"
          stroke="none"
-         points="1645.01,-241 1645.01,4 -4,4 -4,-241 "
+         points="-4,4 -4,-205 1482.75,-205 1482.75,4 "
          id="polygon1" />
+      <g
+         id="clust2"
+         class="cluster">
+        <title
+           id="title2">cluster_loop</title>
+        <polygon
+           fill="none"
+           stroke="#000000"
+           points="99.88,-8 99.88,-193 1470.75,-193 1470.75,-8 "
+           id="polygon2" />
+        <text
+           text-anchor="middle"
+           x="785.31"
+           y="-176.39999"
+           font-family="Times, serif"
+           font-size="14px"
+           id="text2">Main Loop</text>
+      </g>
       <g
          id="clust1"
          class="cluster">
         <title
-           id="title2">cluster_initial</title>
+           id="title3">cluster_initial</title>
         <polygon
            fill="none"
            stroke="#000000"
-           points="78.88,-193 78.88,-116 8,-116 8,-193 "
-           id="polygon2" />
+           points="8,-116 8,-193 78.88,-193 78.88,-116 "
+           id="polygon3" />
         <text
            text-anchor="middle"
            x="43.439999"
            y="-176.39999"
            font-family="Times, serif"
            font-size="14px"
-           id="text2">Setup</text>
-      </g>
-      <g
-         id="clust2"
-         class="cluster">
-        <title
-           id="title3">cluster_loop</title>
-        <polygon
-           fill="none"
-           stroke="#000000"
-           points="1633.01,-193 1633.01,-8 104.93,-8 104.93,-193 "
-           id="polygon3" />
-        <text
-           text-anchor="middle"
-           x="868.96997"
-           y="-176.39999"
-           font-family="Times, serif"
-           font-size="14px"
-           id="text3">Main Loop</text>
+           id="text3">Setup</text>
       </g>
       <!-- setup -->
       <g
@@ -92,7 +95,7 @@
         <polygon
            fill="none"
            stroke="#000000"
-           points="16,-124 70.88,-124 70.88,-160 16,-160 "
+           points="70.88,-160 16,-160 16,-124 70.88,-124 "
            id="polygon4" />
         <text
            text-anchor="middle"
@@ -111,11 +114,11 @@
         <polygon
            fill="none"
            stroke="#000000"
-           points="129.7,-124 183.7,-124 183.7,-160 129.7,-160 "
+           points="178.65,-160 124.65,-160 124.65,-124 178.65,-124 "
            id="polygon5" />
         <text
            text-anchor="middle"
-           x="156.7"
+           x="151.64999"
            y="-137.8"
            font-family="Times, serif"
            font-size="14px"
@@ -130,365 +133,367 @@
         <path
            fill="none"
            stroke="#000000"
-           d="m 71.37,-142 c 14.04,0 31.45,0 46.79,0"
+           d="m 71.24,-142 c 12.67,0 28.02,0 41.83,0"
            id="path6" />
         <polygon
            fill="#000000"
            stroke="#000000"
-           points="117.88,-145.5 127.88,-142 117.88,-138.5 "
+           points="112.71,-138.5 112.71,-145.5 122.71,-142 "
            id="polygon6" />
-      </g>
-      <!-- CHECK_USER -->
-      <g
-         id="node3"
-         class="node">
-        <title
-           id="title7">CHECK_USER</title>
-        <ellipse
-           fill="none"
-           stroke="#000000"
-           cx="310.75"
-           cy="-142"
-           rx="73.279999"
-           ry="18"
-           id="ellipse7" />
-        <text
-           text-anchor="middle"
-           x="310.75"
-           y="-137.8"
-           font-family="Times, serif"
-           font-size="14px"
-           id="text7">CHECK_USER</text>
-      </g>
-      <!-- loop&#45;&gt;CHECK_USER -->
-      <g
-         id="edge2"
-         class="edge">
-        <title
-           id="title8">loop-&gt;CHECK_USER</title>
-        <path
-           fill="none"
-           stroke="#000000"
-           d="m 184.18,-142 c 11.92,0 26.7,0 41.9,0"
-           id="path8" />
-        <polygon
-           fill="#000000"
-           stroke="#000000"
-           points="225.68,-145.5 235.68,-142 225.68,-138.5 "
-           id="polygon8" />
-      </g>
-      <!-- CHECK_PIN -->
-      <g
-         id="node4"
-         class="node">
-        <title
-           id="title9">CHECK_PIN</title>
-        <ellipse
-           fill="none"
-           stroke="#000000"
-           cx="599.23999"
-           cy="-114"
-           rx="64.150002"
-           ry="18"
-           id="ellipse9" />
-        <text
-           text-anchor="middle"
-           x="599.23999"
-           y="-109.8"
-           font-family="Times, serif"
-           font-size="14px"
-           id="text9">CHECK_PIN</text>
-      </g>
-      <!-- CHECK_USER&#45;&gt;CHECK_PIN -->
-      <g
-         id="edge3"
-         class="edge">
-        <title
-           id="title10">CHECK_USER-&gt;CHECK_PIN</title>
-        <path
-           fill="none"
-           stroke="#000000"
-           d="m 373.84,-132.67 c 9.43,1.27 19.06,2.47 28.19,3.47 40.63,4.45 86.13,8.06 123.08,10.64"
-           id="path10" />
-        <polygon
-           fill="#000000"
-           stroke="#000000"
-           points="525.04,-122.07 534.78,-117.89 524.56,-115.09 "
-           id="polygon10" />
-        <text
-           text-anchor="middle"
-           x="459.56"
-           y="-133.2"
-           font-family="Times, serif"
-           font-size="14px"
-           id="text10">Valid Card Detected</text>
-      </g>
-      <!-- OPENING -->
-      <g
-         id="node5"
-         class="node">
-        <title
-           id="title11">OPENING</title>
-        <ellipse
-           fill="none"
-           stroke="#000000"
-           cx="809.97998"
-           cy="-114"
-           rx="53.419998"
-           ry="18"
-           id="ellipse11" />
-        <text
-           text-anchor="middle"
-           x="809.97998"
-           y="-109.8"
-           font-family="Times, serif"
-           font-size="14px"
-           id="text11">OPENING</text>
-      </g>
-      <!-- CHECK_PIN&#45;&gt;OPENING -->
-      <g
-         id="edge4"
-         class="edge">
-        <title
-           id="title12">CHECK_PIN-&gt;OPENING</title>
-        <path
-           fill="none"
-           stroke="#000000"
-           d="m 663.72,-114 c 25.81,0 55.58,0 81.42,0"
-           id="path12" />
-        <polygon
-           fill="#000000"
-           stroke="#000000"
-           points="744.82,-117.5 754.82,-114 744.82,-110.5 "
-           id="polygon12" />
-        <text
-           text-anchor="middle"
-           x="709.97998"
-           y="-118.2"
-           font-family="Times, serif"
-           font-size="14px"
-           id="text12">Valid PIN</text>
-      </g>
-      <!-- UNLOCKED -->
-      <g
-         id="node6"
-         class="node">
-        <title
-           id="title13">UNLOCKED</title>
-        <ellipse
-           fill="none"
-           stroke="#000000"
-           cx="1050.24"
-           cy="-114"
-           rx="64.139999"
-           ry="18"
-           id="ellipse13" />
-        <text
-           text-anchor="middle"
-           x="1050.24"
-           y="-109.8"
-           font-family="Times, serif"
-           font-size="14px"
-           id="text13">UNLOCKED</text>
-      </g>
-      <!-- OPENING&#45;&gt;UNLOCKED -->
-      <g
-         id="edge5"
-         class="edge">
-        <title
-           id="title14">OPENING-&gt;UNLOCKED</title>
-        <path
-           fill="none"
-           stroke="#000000"
-           d="m 863.86,-114 c 32.53,0 74.73,0 110.65,0"
-           id="path14" />
-        <polygon
-           fill="#000000"
-           stroke="#000000"
-           points="974.42,-117.5 984.42,-114 974.42,-110.5 "
-           id="polygon14" />
-        <text
-           text-anchor="middle"
-           x="924.75"
-           y="-118.2"
-           font-family="Times, serif"
-           font-size="14px"
-           id="text14">Door Unlocked</text>
       </g>
       <!-- CLOSING -->
       <g
          id="node7"
          class="node">
         <title
-           id="title15">CLOSING</title>
+           id="title7">CLOSING</title>
         <ellipse
            fill="none"
            stroke="#000000"
-           cx="1361.47"
-           cy="-114"
+           cx="285.29999"
+           cy="-122"
            rx="52.880001"
+           ry="18"
+           id="ellipse7" />
+        <text
+           text-anchor="middle"
+           x="285.29999"
+           y="-117.8"
+           font-family="Times, serif"
+           font-size="14px"
+           id="text7">CLOSING</text>
+      </g>
+      <!-- loop&#45;&gt;CLOSING -->
+      <g
+         id="edge2"
+         class="edge">
+        <title
+           id="title8">loop-&gt;CLOSING</title>
+        <path
+           fill="none"
+           stroke="#000000"
+           d="m 178.97,-138 c 13.35,2.03 30.15,4.58 46.38,7.04"
+           id="path8" />
+        <polygon
+           fill="#000000"
+           stroke="#000000"
+           points="224.54,-127.54 225.59,-134.46 234.95,-129.5 "
+           id="polygon8" />
+      </g>
+      <!-- CHECK_USER -->
+      <g
+         id="node3"
+         class="node">
+        <title
+           id="title9">CHECK_USER</title>
+        <ellipse
+           fill="none"
+           stroke="#000000"
+           cx="659.10999"
+           cy="-122"
+           rx="73.279999"
+           ry="18"
+           id="ellipse9" />
+        <text
+           text-anchor="middle"
+           x="659.10999"
+           y="-117.8"
+           font-family="Times, serif"
+           font-size="14px"
+           id="text9">CHECK_USER</text>
+      </g>
+      <!-- CHECK_PIN -->
+      <g
+         id="node4"
+         class="node">
+        <title
+           id="title10">CHECK_PIN</title>
+        <ellipse
+           fill="none"
+           stroke="#000000"
+           cx="947.60999"
+           cy="-103"
+           rx="64.150002"
+           ry="18"
+           id="ellipse10" />
+        <text
+           text-anchor="middle"
+           x="947.60999"
+           y="-98.800003"
+           font-family="Times, serif"
+           font-size="14px"
+           id="text10">CHECK_PIN</text>
+      </g>
+      <!-- CHECK_USER&#45;&gt;CHECK_PIN -->
+      <g
+         id="edge3"
+         class="edge">
+        <title
+           id="title11">CHECK_USER-&gt;CHECK_PIN</title>
+        <path
+           fill="none"
+           stroke="#000000"
+           d="m 713.81,-109.69 c 11.97,2.26 24.66,4.29 36.58,5.49 40.24,4.05 85.35,4.61 122.17,4.03"
+           id="path11" />
+        <polygon
+           fill="#000000"
+           stroke="#000000"
+           points="872.26,-96.66 872.13,-103.66 882.19,-100.35 "
+           id="polygon11" />
+        <text
+           text-anchor="middle"
+           x="807.91998"
+           y="-108.2"
+           font-family="Times, serif"
+           font-size="14px"
+           id="text11">Valid Card Detected</text>
+      </g>
+      <!-- CHECK_PIN&#45;&gt;CHECK_USER -->
+      <g
+         id="edge5"
+         class="edge">
+        <title
+           id="title12">CHECK_PIN-&gt;CHECK_USER</title>
+        <path
+           fill="none"
+           stroke="#000000"
+           d="m 899.26,-115.28 c -11.02,-2.36 -22.76,-4.48 -33.81,-5.72 -40.13,-4.5 -84.95,-5.21 -122.46,-4.61"
+           id="path12" />
+        <polygon
+           fill="#000000"
+           stroke="#000000"
+           points="743.04,-129.11 743.18,-122.11 733.11,-125.41 "
+           id="polygon12" />
+        <text
+           text-anchor="middle"
+           x="807.91998"
+           y="-129.2"
+           font-family="Times, serif"
+           font-size="14px"
+           id="text12">Wrong PIN</text>
+      </g>
+      <!-- OPENING -->
+      <g
+         id="node5"
+         class="node">
+        <title
+           id="title13">OPENING</title>
+        <ellipse
+           fill="none"
+           stroke="#000000"
+           cx="1158.34"
+           cy="-101"
+           rx="53.419998"
+           ry="18"
+           id="ellipse13" />
+        <text
+           text-anchor="middle"
+           x="1158.34"
+           y="-96.800003"
+           font-family="Times, serif"
+           font-size="14px"
+           id="text13">OPENING</text>
+      </g>
+      <!-- CHECK_PIN&#45;&gt;OPENING -->
+      <g
+         id="edge4"
+         class="edge">
+        <title
+           id="title14">CHECK_PIN-&gt;OPENING</title>
+        <path
+           fill="none"
+           stroke="#000000"
+           d="m 1012.08,-102.39 c 25.81,0.25 55.58,0.53 81.42,0.78"
+           id="path14" />
+        <polygon
+           fill="#000000"
+           stroke="#000000"
+           points="1093.15,-98.12 1093.21,-105.11 1103.18,-101.52 "
+           id="polygon14" />
+        <text
+           text-anchor="middle"
+           x="1058.34"
+           y="-106.2"
+           font-family="Times, serif"
+           font-size="14px"
+           id="text14">Valid PIN</text>
+      </g>
+      <!-- UNLOCKED -->
+      <g
+         id="node6"
+         class="node">
+        <title
+           id="title15">UNLOCKED</title>
+        <ellipse
+           fill="none"
+           stroke="#000000"
+           cx="1398.6"
+           cy="-75"
+           rx="64.139999"
            ry="18"
            id="ellipse15" />
         <text
            text-anchor="middle"
-           x="1361.47"
-           y="-109.8"
+           x="1398.6"
+           y="-70.800003"
            font-family="Times, serif"
            font-size="14px"
-           id="text15">CLOSING</text>
+           id="text15">UNLOCKED</text>
       </g>
-      <!-- UNLOCKED&#45;&gt;CLOSING -->
+      <!-- OPENING&#45;&gt;UNLOCKED -->
       <g
          id="edge6"
          class="edge">
         <title
-           id="title16">UNLOCKED-&gt;CLOSING</title>
+           id="title16">OPENING-&gt;UNLOCKED</title>
         <path
            fill="none"
            stroke="#000000"
-           d="m 1114.56,-114 c 53.34,0 129.26,0 182.6,0"
+           d="m 1209.58,-95.52 c 34.02,3.72 79.47,8.67 117.17,12.79"
            id="path16" />
         <polygon
            fill="#000000"
            stroke="#000000"
-           points="1297,-117.5 1307,-114 1297,-110.5 "
+           points="1326.35,-79.25 1327.11,-86.21 1336.67,-81.65 "
            id="polygon16" />
         <text
            text-anchor="middle"
-           x="1211.49"
-           y="-118.2"
+           x="1273.11"
+           y="-96.199997"
            font-family="Times, serif"
            font-size="14px"
-           id="text16">Valid Card Detected (again)</text>
+           id="text16">Door Unlocked</text>
+      </g>
+      <!-- UNLOCKED&#45;&gt;CLOSING -->
+      <g
+         id="edge7"
+         class="edge">
+        <title
+           id="title17">UNLOCKED-&gt;CLOSING</title>
+        <path
+           fill="none"
+           stroke="#000000"
+           d="m 1336.43,-70.22 c -48.1,3.34 -116.83,7.22 -177.09,7.22 -661.7,0 -661.7,0 -661.7,0 -60.63,0 -127.55,-22.8 -169.51,-40.05"
+           id="path17" />
+        <polygon
+           fill="#000000"
+           stroke="#000000"
+           points="329.73,-106.18 327.02,-99.73 319.15,-106.83 "
+           id="polygon17" />
+        <text
+           text-anchor="middle"
+           x="807.91998"
+           y="-67.199997"
+           font-family="Times, serif"
+           font-size="14px"
+           id="text17">Valid Card Detected</text>
       </g>
       <!-- LOCKED -->
       <g
          id="node8"
          class="node">
         <title
-           id="title17">LOCKED</title>
+           id="title18">LOCKED</title>
         <ellipse
            fill="none"
            stroke="#000000"
-           cx="1574.8101"
-           cy="-127"
+           cx="498.64001"
+           cy="-122"
            rx="50.200001"
            ry="18"
-           id="ellipse17" />
+           id="ellipse18" />
         <text
            text-anchor="middle"
-           x="1574.8101"
-           y="-122.8"
+           x="498.64001"
+           y="-117.8"
            font-family="Times, serif"
            font-size="14px"
-           id="text17">LOCKED</text>
+           id="text18">LOCKED</text>
       </g>
       <!-- CLOSING&#45;&gt;LOCKED -->
-      <g
-         id="edge7"
-         class="edge">
-        <title
-           id="title18">CLOSING-&gt;LOCKED</title>
-        <path
-           fill="none"
-           stroke="#000000"
-           d="m 1413.9,-117.16 c 30.14,-1.86 68.36,-4.21 99.88,-6.15"
-           id="path18" />
-        <polygon
-           fill="#000000"
-           stroke="#000000"
-           points="1513.35,-126.79 1523.55,-123.91 1513.78,-119.8 "
-           id="polygon18" />
-        <text
-           text-anchor="middle"
-           x="1469.49"
-           y="-126.2"
-           font-family="Times, serif"
-           font-size="14px"
-           id="text18">Door Locked</text>
-      </g>
-      <!-- LOCKED&#45;&gt;CHECK_USER -->
       <g
          id="edge8"
          class="edge">
         <title
-           id="title19">LOCKED-&gt;CHECK_USER</title>
+           id="title19">CLOSING-&gt;LOCKED</title>
         <path
            fill="none"
            stroke="#000000"
-           d="m 1533.88,-137.74 c -8.92,-2.05 -18.37,-3.96 -27.27,-5.26 -63.49,-9.25 -79.98,-8 -144.14,-8 -764.23,0 -764.23,0 -764.23,0 -68.81,0 -146.87,2.63 -204.12,5.04"
+           d="m 338.54,-122 c 29.83,0 67.36,0 98.49,0"
            id="path19" />
         <polygon
            fill="#000000"
            stroke="#000000"
-           points="394.61,-142.48 384.47,-145.54 394.31,-149.47 "
+           points="436.66,-118.5 436.66,-125.5 446.66,-122 "
            id="polygon19" />
+        <text
+           text-anchor="middle"
+           x="393.31"
+           y="-126.2"
+           font-family="Times, serif"
+           font-size="14px"
+           id="text19">Door Locked</text>
+      </g>
+      <!-- LOCKED&#45;&gt;CHECK_USER -->
+      <g
+         id="edge9"
+         class="edge">
+        <title
+           id="title20">LOCKED-&gt;CHECK_USER</title>
+        <path
+           fill="none"
+           stroke="#000000"
+           d="m 548.91,-122 c 8.09,0 16.66,0 25.31,0"
+           id="path20" />
+        <polygon
+           fill="#000000"
+           stroke="#000000"
+           points="574.08,-118.5 574.08,-125.5 584.08,-122 "
+           id="polygon20" />
       </g>
       <!-- THEFT -->
       <g
          id="node9"
          class="node">
         <title
-           id="title20">THEFT</title>
+           id="title21">THEFT</title>
         <ellipse
            fill="none"
            stroke="#000000"
-           cx="156.7"
+           cx="151.64999"
            cy="-88"
            rx="41.080002"
            ry="18"
-           id="ellipse20" />
+           id="ellipse21" />
         <text
            text-anchor="middle"
-           x="156.7"
+           x="151.64999"
            y="-83.800003"
            font-family="Times, serif"
            font-size="14px"
-           id="text20">THEFT</text>
+           id="text21">THEFT</text>
       </g>
       <!-- SHOCK -->
       <g
          id="node10"
          class="node">
         <title
-           id="title21">SHOCK</title>
+           id="title22">SHOCK</title>
         <ellipse
            fill="none"
            stroke="#000000"
-           cx="156.7"
+           cx="151.64999"
            cy="-34"
            rx="43.77"
-           ry="18"
-           id="ellipse21" />
-        <text
-           text-anchor="middle"
-           x="156.7"
-           y="-29.799999"
-           font-family="Times, serif"
-           font-size="14px"
-           id="text21">SHOCK</text>
-      </g>
-      <!-- guide -->
-      <g
-         id="node11"
-         class="node">
-        <title
-           id="title22">guide</title>
-        <ellipse
-           fill="none"
-           stroke="#000000"
-           cx="43.439999"
-           cy="-219"
-           rx="32.490002"
            ry="18"
            id="ellipse22" />
         <text
            text-anchor="middle"
-           x="43.439999"
-           y="-214.8"
+           x="151.64999"
+           y="-29.799999"
            font-family="Times, serif"
            font-size="14px"
-           id="text22">guide</text>
+           id="text22">SHOCK</text>
       </g>
     </g>
   </g>
