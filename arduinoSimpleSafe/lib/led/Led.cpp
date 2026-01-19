@@ -33,21 +33,28 @@ void Led::toggle() {
 
 bool Led::blink(unsigned long currentMillis, unsigned int amount = 0, unsigned int duration = 100) {
     
-    bool blinkDone = (blinkCounter > amount) and not (amount == 0);
+    bool blinkDone;
 
-    if (((currentMillis - timeLastInteraction) >= duration) and not blinkDone){
+    if (((currentMillis - timeLastInteraction) >= duration)){
         toggle();
-        blinkCounter = blinkCounter + 1;
+
+        if (digitalRead(pin)) {
+            blinkCounter = blinkCounter + 1;
+        };
+                
         timeLastInteraction = currentMillis;
     };
 
-    if (blinkDone) {
+    blinkDone = (blinkCounter >= amount) and not (amount == 0);
+
+    if (blinkDone and not (digitalRead(pin))) {
         blinkCounter = 0;
         blinkDone = false;
         timeLastInteraction = currentMillis;
+        return true;
     };    
     
-    return blinkDone;
+    return false;
 };
 
 bool Led::fadeIn(unsigned long currentMillis, unsigned int time) {
